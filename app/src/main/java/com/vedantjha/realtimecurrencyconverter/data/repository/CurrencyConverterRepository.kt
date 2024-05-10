@@ -9,4 +9,8 @@ import javax.inject.Inject
 class CurrencyConverterRepository @Inject constructor(private val currencyConverterApiService: CurrencyConverterApiService) {
     suspend fun getCurrentExchangeRate(baseCurrency: String, targetCurrency: String) =
         currencyConverterApiService.getExchangeRate(api_key =Constant.API_KEY, symbols = "$baseCurrency,$targetCurrency")
+
+    suspend fun getAvailableCurrencies() =
+        currencyConverterApiService.getAvailableCurrencies(api_key =Constant.API_KEY)
+
 }
