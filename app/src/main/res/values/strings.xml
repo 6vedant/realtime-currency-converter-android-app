@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">RealtimeCurrencyConverter</string>
+    <string name="app_name">Convert Currency</string>
     <string name="no_instance_found">No Instance Found</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Convert</string>
+    <string name="title_dashboard">History</string>
 </resources>

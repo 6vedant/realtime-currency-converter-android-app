@@ -20,9 +20,10 @@ class CurrencyConverterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCurrencyConverterBinding
     @Inject
     lateinit var repository: CurrencyConverterRepository
-    private val currencyConverterViewModel: CurrencyConverterViewModel by viewModels<CurrencyConverterViewModel> {
-        CurrencyConverterViewModelFactory(repository)
-    }
+
+//    private val currencyConverterViewModel: CurrencyConverterViewModel by viewModels<CurrencyConverterViewModel> {
+//        CurrencyConverterViewModelFactory(repository)
+//    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +45,7 @@ class CurrencyConverterActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        currencyConverterViewModel.getAllAvailableCurrencies()
+//        currencyConverterViewModel.getAllAvailableCurrencies()
 
 
 

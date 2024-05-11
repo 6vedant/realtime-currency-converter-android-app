@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.vedantjha.realtimecurrencyconverter.ui.fragment.home.HomeFragment"
+        android:name="com.vedantjha.realtimecurrencyconverter.ui.fragment.convertcurrency.ConvertCurrencyFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_currency_converter" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.vedantjha.realtimecurrencyconverter.ui.fragment.dashboard.DashboardFragment"
+        android:name="com.vedantjha.realtimecurrencyconverter.ui.fragment.history.HistoryFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_history" />
 </navigation>
