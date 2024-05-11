@@ -1,23 +1,25 @@
 package com.vedantjha.realtimecurrencyconverter.ui.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.asLiveData
-import com.vedantjha.realtimecurrencyconverter.CurrencyConverterApplication
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.vedantjha.realtimecurrencyconverter.R
-import com.vedantjha.realtimecurrencyconverter.data.model.Currency
 import com.vedantjha.realtimecurrencyconverter.data.repository.CurrencyConverterRepository
-import com.vedantjha.realtimecurrencyconverter.data.room.CurrencyConverterDao
+import com.vedantjha.realtimecurrencyconverter.databinding.ActivityCurrencyConverterBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class CurrencyConverterActivity : AppCompatActivity() {
-    @Inject lateinit var repository: CurrencyConverterRepository
+
+    private lateinit var binding: ActivityCurrencyConverterBinding
+    @Inject
+    lateinit var repository: CurrencyConverterRepository
     private val currencyConverterViewModel: CurrencyConverterViewModel by viewModels<CurrencyConverterViewModel> {
         CurrencyConverterViewModelFactory(repository)
     }
@@ -25,7 +27,22 @@ class CurrencyConverterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_currency_converter)
+
+        binding = ActivityCurrencyConverterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val navView: BottomNavigationView = binding.navView
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_dashboard
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
 
         currencyConverterViewModel.getAllAvailableCurrencies()
 
