@@ -12,12 +12,12 @@ interface CurrencyConverterApiService {
 
     @GET("symbols")
     suspend fun getAvailableCurrencies(
-        @Query("access_key") api_key: String = Constant.API_KEY,
+        @Query("access_key") apiKey: String = Constant.API_KEY,
     ): Response<CurrencySymbolResponse>
 
     @GET("latest")
     suspend fun getExchangeRate(
-        @Query("access_key") api_key: String = Constant.API_KEY,
+        @Query("access_key") apiKey: String = Constant.API_KEY,
         @Query("symbols", encoded = true) symbols: String
     ): Response<CurrencyExchangeRateResponse>
 

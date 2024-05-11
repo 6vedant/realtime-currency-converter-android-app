@@ -27,41 +27,19 @@ class CurrencyConverterViewModel @Inject constructor(private val repository: Cur
     val availableCurrenciesLiveData = MutableLiveData<List<Currency>?>()
 
     init {
-     //   getAllAvailableCurrencies(dao = dao)
-
+        getAllAvailableCurrencies()
     }
 
     fun getAllAvailableCurrencies() {
-
         viewModelScope.launch {
-
-            val result = repository.addCurrency(Currency("vedant"+System.currentTimeMillis(), "currenofvedant"+System.currentTimeMillis()))
-            Log.d("CURRENCYVALUE", "db is $result callback for insert:  "+repository.getAllAvailableCurrenciesLocalDatabase()!!)
-
-//            try {
-//                val response = withContext(Dispatchers.IO) {
-//                    repository.getAvailableCurrencies()
-//                }
-//                val currencyList = response.body()?.symbols?.map {(key, value) ->
-//                     Currency(key, value)
-//
-//                }
-//                Log.d("CURRENCYVALUE", "currency list : "+response.body())
-//                addToRoomDB(currencyList)
-//                availableCurrenciesLiveData.postValue(currencyList)
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-        }
-    }
-
-    suspend fun addToRoomDB(currencyList: List<Currency>?) {
-        if(currencyList != null ) {
-            Log.d("CURRENCYVALUE", "adding : "+currencyList.size)
-            for (currency in currencyList) {
+            try {
+                val currencyList = withContext(Dispatchers.IO) {
+                    repository.getAllAvailableCountries()
+                }
+                availableCurrenciesLiveData.postValue(currencyList)
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-        } else {
-            Log.d("CURRENCYVALUE", "Null getting : ")
         }
     }
 
@@ -71,8 +49,8 @@ class CurrencyConverterViewModel @Inject constructor(private val repository: Cur
                 val response = withContext(Dispatchers.IO) {
                     repository.getCurrentExchangeRate(baseCurrency, targetCurrency)
                 }
-                Log.d("CURRENCYVALUE", "BODY: "+response.toString())
-                Log.d("CURRENCYVALUE", "ERROR: "+response.errorBody())
+                Log.d("CURRENCYVALUE", "BODY: " + response.toString())
+                Log.d("CURRENCYVALUE", "ERROR: " + response.errorBody())
 
                 currencyConverterResponseLiveData.postValue(response.body())
             } catch (e: Exception) {
@@ -82,9 +60,10 @@ class CurrencyConverterViewModel @Inject constructor(private val repository: Cur
     }
 }
 
-class CurrencyConverterViewModelFactory(private val repository: CurrencyConverterRepository): ViewModelProvider.Factory {
+class CurrencyConverterViewModelFactory(private val repository: CurrencyConverterRepository) :
+    ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(CurrencyConverterViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(CurrencyConverterViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return CurrencyConverterViewModel(repository) as T
         }

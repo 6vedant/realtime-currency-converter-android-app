@@ -15,19 +15,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
-//    @ViewModelScoped
-//    @Provides
-//    fun providesUserDetailUseCase(repository: UserDetailRepository) : UserDetailUseCase = UserDetailUseCase(repository)
-
     @Singleton
     @Provides
-    fun providesUserDetailRepository() : CurrencyConverterDao {
+    fun providesUserDetailRepository(): CurrencyConverterDao {
         val db = CurrencyConverterRoomDatabase.getDatabase(CurrencyConverterApplication.instance)
-        return  db.currencyConverterDao()
+        return db.currencyConverterDao()
     }
-
-//    @ViewModelScoped
-//    @Provides
-//    fun providesUserViewModel(useCase: UserDetailUseCase): UserViewModel = UserViewModel(useCase)
-
 }

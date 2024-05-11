@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "available_currencies")
-
+@Parcelize
 data class Currency(
     @PrimaryKey
     @ColumnInfo(name = "CurrencyCode")
@@ -15,4 +15,4 @@ data class Currency(
 
     @ColumnInfo(name = "CurrencyName")
     val name: String = ""
-)
+): Parcelable

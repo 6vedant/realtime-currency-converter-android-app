@@ -1,0 +1,5 @@
+.gradle/*
+.gradle
+*.lock
+*.bin
+build/
