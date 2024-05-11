@@ -1,5 +1,6 @@
 package com.vedantjha.realtimecurrencyconverter.data.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,5 +14,5 @@ interface CurrencyConverterDao {
     suspend fun insert(currency: Currency)
 
     @Query("SELECT * FROM available_currencies ORDER BY CurrencyName ASC")
-    fun getAllCurrencies(): Flow<List<Currency>>
+    fun getAllCurrencies(): LiveData<List<Currency>>
 }
