@@ -1,33 +1,33 @@
 package com.vedantjha.realtimecurrencyconverter.di
 
-import android.content.Context
-import androidx.room.Room
+import com.vedantjha.realtimecurrencyconverter.CurrencyConverterApplication
+import com.vedantjha.realtimecurrencyconverter.data.repository.CurrencyConverterRepository
 import com.vedantjha.realtimecurrencyconverter.data.room.CurrencyConverterDao
 import com.vedantjha.realtimecurrencyconverter.data.room.CurrencyConverterRoomDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ActivityContext
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
-import dagger.hilt.internal.aggregatedroot.codegen._com_vedantjha_realtimecurrencyconverter_CurrencyConverterApplication
 import javax.inject.Singleton
-import kotlin.coroutines.coroutineContext
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+class DatabaseModule {
+//    @ViewModelScoped
+//    @Provides
+//    fun providesUserDetailUseCase(repository: UserDetailRepository) : UserDetailUseCase = UserDetailUseCase(repository)
 
     @Singleton
     @Provides
-    fun getRoomDatabase(@ApplicationContext context: Context): CurrencyConverterRoomDatabase {
-        return Room.databaseBuilder(context, CurrencyConverterRoomDatabase::class.java, "currency_room_database").build()
+    fun providesUserDetailRepository() : CurrencyConverterDao {
+        val db = CurrencyConverterRoomDatabase.getDatabase(CurrencyConverterApplication.instance)
+        return  db.currencyConverterDao()
     }
 
-
-    @Provides
-    fun getDatabaseDao(database: CurrencyConverterRoomDatabase): CurrencyConverterDao {
-        return database.currencyConverterDao()
-    }
+//    @ViewModelScoped
+//    @Provides
+//    fun providesUserViewModel(useCase: UserDetailUseCase): UserViewModel = UserViewModel(useCase)
 
 }

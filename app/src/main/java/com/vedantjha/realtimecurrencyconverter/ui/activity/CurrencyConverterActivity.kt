@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.asLiveData
+import com.vedantjha.realtimecurrencyconverter.CurrencyConverterApplication
 import com.vedantjha.realtimecurrencyconverter.R
+import com.vedantjha.realtimecurrencyconverter.data.model.Currency
 import com.vedantjha.realtimecurrencyconverter.data.repository.CurrencyConverterRepository
 import com.vedantjha.realtimecurrencyconverter.data.room.CurrencyConverterDao
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,9 +18,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CurrencyConverterActivity : AppCompatActivity() {
     @Inject lateinit var repository: CurrencyConverterRepository
-    @Inject lateinit var currencyConverterDao: CurrencyConverterDao
     private val currencyConverterViewModel: CurrencyConverterViewModel by viewModels<CurrencyConverterViewModel> {
-        CurrencyConverterViewModelFactory(repository, currencyConverterDao)
+        CurrencyConverterViewModelFactory(repository)
     }
 
 
@@ -26,14 +27,9 @@ class CurrencyConverterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currency_converter)
 
-       // currencyConverterViewModel.getAllAvailableCurrencies()
+        currencyConverterViewModel.getAllAvailableCurrencies()
 
 
-        val d = repository.getAllAvailableCurrenciesLocalDatabase()
-        Log.d("CURRENCYVALUE", "dao is : "+d.value)
-        if (currencyConverterDao != null ) {
-            Log.d("CURRENCYVALUE", "dao is nll")
-        }
 
 //        currencyConverterViewModel.getCurrencyExchangeRate("EUR", "INR")
 //        currencyConverterViewModel.currencyConverterResponseLiveData.observe(this, Observer {

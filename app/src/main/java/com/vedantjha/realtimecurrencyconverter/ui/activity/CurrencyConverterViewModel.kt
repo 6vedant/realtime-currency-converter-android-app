@@ -18,9 +18,8 @@ import java.lang.Exception
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
-class CurrencyConverterViewModel @Inject constructor(private val repository: CurrencyConverterRepository, private val currencyConverterDao: CurrencyConverterDao) :
+class CurrencyConverterViewModel @Inject constructor(private val repository: CurrencyConverterRepository) :
     ViewModel() {
-
 
 
     val currencyConverterResponseLiveData = MutableLiveData<CurrencyExchangeRateResponse>()
@@ -28,29 +27,31 @@ class CurrencyConverterViewModel @Inject constructor(private val repository: Cur
     val availableCurrenciesLiveData = MutableLiveData<List<Currency>?>()
 
     init {
-        getAllAvailableCurrencies()
+     //   getAllAvailableCurrencies(dao = dao)
 
     }
 
     fun getAllAvailableCurrencies() {
 
-        Log.d("CURRENCYVALUE", "Method called 37: "+ currencyConverterDao.getAllCurrencies().value)
         viewModelScope.launch {
 
-            try {
-                val response = withContext(Dispatchers.IO) {
-                    repository.getAvailableCurrencies()
-                }
-                val currencyList = response.body()?.symbols?.map {(key, value) ->
-                     Currency(key, value)
+            val result = repository.addCurrency(Currency("vedant"+System.currentTimeMillis(), "currenofvedant"+System.currentTimeMillis()))
+            Log.d("CURRENCYVALUE", "db is $result callback for insert:  "+repository.getAllAvailableCurrenciesLocalDatabase()!!)
 
-                }
-                Log.d("CURRENCYVALUE", "currency list : "+response.body())
-                addToRoomDB(currencyList)
-                availableCurrenciesLiveData.postValue(currencyList)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+//            try {
+//                val response = withContext(Dispatchers.IO) {
+//                    repository.getAvailableCurrencies()
+//                }
+//                val currencyList = response.body()?.symbols?.map {(key, value) ->
+//                     Currency(key, value)
+//
+//                }
+//                Log.d("CURRENCYVALUE", "currency list : "+response.body())
+//                addToRoomDB(currencyList)
+//                availableCurrenciesLiveData.postValue(currencyList)
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
         }
     }
 
@@ -58,7 +59,6 @@ class CurrencyConverterViewModel @Inject constructor(private val repository: Cur
         if(currencyList != null ) {
             Log.d("CURRENCYVALUE", "adding : "+currencyList.size)
             for (currency in currencyList) {
-                currencyConverterDao.insert(currency)
             }
         } else {
             Log.d("CURRENCYVALUE", "Null getting : ")
@@ -82,11 +82,11 @@ class CurrencyConverterViewModel @Inject constructor(private val repository: Cur
     }
 }
 
-class CurrencyConverterViewModelFactory(private val repository: CurrencyConverterRepository, private val currencyConverterDao: CurrencyConverterDao): ViewModelProvider.Factory {
+class CurrencyConverterViewModelFactory(private val repository: CurrencyConverterRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(CurrencyConverterViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CurrencyConverterViewModel(repository, currencyConverterDao) as T
+            return CurrencyConverterViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class!")
     }

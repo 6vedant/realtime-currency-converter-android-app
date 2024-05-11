@@ -1,12 +1,16 @@
 package com.vedantjha.realtimecurrencyconverter.di
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.vedantjha.realtimecurrencyconverter.CurrencyConverterApplication
 import com.vedantjha.realtimecurrencyconverter.data.network.CurrencyConverterApiService
+import com.vedantjha.realtimecurrencyconverter.data.room.CurrencyConverterDao
 import com.vedantjha.realtimecurrencyconverter.utils.Constant
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

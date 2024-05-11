@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CurrencyConverterDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(currency: Currency)
+    suspend fun insert(currency: Currency): Long
 
-    @Query("SELECT * FROM available_currencies ORDER BY CurrencyName ASC")
-    fun getAllCurrencies(): LiveData<List<Currency>>
+    @Query("SELECT * FROM `available_currencies`")
+    suspend fun getAllCurrencies(): List<Currency>
 }
